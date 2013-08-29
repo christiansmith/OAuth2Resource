@@ -1,0 +1,31 @@
+{
+  "name": "OAuth2Resource",
+  "author": {
+    "name": "Christian Smith",
+    "email": "smith@anvil.io",
+    "url": "http://anvil.io"
+  },
+  "version": "0.0.0",
+  "description": "Middleware for authorizing API access against OAuth2Server",
+  "main": "index.js",
+  "dependencies": {
+    "request": "~2.27.0"
+  },
+  "devDependencies": {
+    "chai": "~1.7.2",
+    "express": "~3.3.6",
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-mocha-cov": "~0.0.7",
+    "nock": "~0.22.1",
+    "supertest": "~0.7.1"
+  },  
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christiansmith/OAuth2Resource.git"
+  },
+  "license": "MIT"
+}
