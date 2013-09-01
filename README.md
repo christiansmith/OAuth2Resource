@@ -4,18 +4,18 @@ Express middleware for request authorization against [OAuth2Server](https://gith
 
 ## Usage
 
-OAuth2Server requires protected resources (your API server) to be registered, and provides credentials for authenticating access token verification requests. Configure the module with an authorization server endpoint, resource_id and resource_secret, then use it as route specific middleware. Here's an example Express app.
+OAuth2Server requires protected resources (your API server) to be registered, and provides credentials for authenticating access token verification requests. Configure the module with an authorization server endpoint, resource_id, resource_secret, and scope, then use it as route specific middleware. Here's an example Express app.
 
     // app dependencies
     var express = require('express')
       , app = express();
 
-
     // middleware config
     var authorize = require('../index')({
       endpoint: 'https://HOST:PORT/access', 
       resource_id: RESOURCE_ID, 
-      resource_secret: RESOURCE_SECRET
+      resource_secret: RESOURCE_SECRET,
+      scope: SCOPE
     });
 
     // app config
@@ -38,28 +38,12 @@ OAuth2Server requires protected resources (your API server) to be registered, an
     });
 
 
-Requests to a protected endpoint must be well formed. Here are a few examples building up to a well formed request:
+Requests to a protected endpoint require a Bearer token:
 
-    // without access token
-    $ curl -v localhost:3001/protected
 
-    // without client id
-    $ curl -v localhost:3001/protected -H 'Authorization: Bearer e957468c922c97605aa9'
+    $ curl -v 'localhost:3001/protected' -H 'Authorization: Bearer e957468c922c97605aa9'
 
-    // with mismatching client
-    $ curl -v 'localhost:3001/protected?client_id=wrong&scope=limited' -H 'Authorization: Bearer e957468c922c97605aa9'
-
-    // without scope
-    $ curl -v 'localhost:3001/protected?client_id=2b' -H 'Authorization: Bearer e957468c922c97605aa9'
-
-    // with insufficient scope
-    $ curl -v 'localhost:3001/protected?client_id=2b&scope=insufficient' -H 'Authorization: Bearer e957468c922c97605aa9'
-
-    // valid request
-    $ curl -v 'localhost:3001/protected?client_id=2b&scope=limited' -H 'Authorization: Bearer e957468c922c97605aa9'
-
-    // response to a valid request
-    > GET /protected?client_id=2b&scope=limited HTTP/1.1
+    > GET /protected HTTP/1.1
     > Host: localhost:3001
     > Accept: */*
     > Authorization: Bearer e957468c922c97605aa9
