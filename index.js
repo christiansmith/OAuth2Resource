@@ -52,7 +52,7 @@ module.exports = function (config) {
    * Authorization server interaction
    */
 
-  function authorize (access_token, client_id, scope, callback) {
+  function authorize (access_token, scope, callback) {
 //    cache.get(access_token, function (err, token) {
 //      if (err) { return callback(err); }
 //      if (token) { return callback(null, token); }
@@ -77,7 +77,7 @@ module.exports = function (config) {
       json: true,
       form: {
         access_token: access_token,
-        client_id: client_id,
+//        client_id: client_id,
         scope: scope
       } 
     }, function (err, res, body) {
@@ -97,8 +97,8 @@ module.exports = function (config) {
     var headers = req.headers
       , authorization = headers['authorization'] || ''
       , access_token = authorization.replace(/^Bearer\s/, '')
-      , client_id = req.query.client_id
-      , scope = req.query.scope
+//      , client_id = req.query.client_id
+//      , scope = req.query.scope
       ;
 
     // fail if there is no access token in the Authorization header
@@ -106,18 +106,18 @@ module.exports = function (config) {
       return next(new InvalidRequestError('Missing access token')); 
     }
 
-    // fail if there is no client_id in the request params
-    if (!client_id) { 
-      return next(new InvalidRequestError('Missing client id')); 
-    }
+//    // fail if there is no client_id in the request params
+//    if (!client_id) { 
+//      return next(new InvalidRequestError('Missing client id')); 
+//    }
 
-    // fail if there is no scope in the request params
-    if (!scope) { 
-      return next(new InsufficientScopeError()); 
-    }
+//    // fail if there is no scope in the request params
+//    if (!scope) { 
+//      return next(new InsufficientScopeError()); 
+//    }
 
     // if all arguments are valid, verify the token
-    authorize(access_token, client_id, scope, function (err, response) {
+    authorize(access_token, config.scope, function (err, response) {
       if (err && err.error === 'insufficient_scope') {
         next(new InsufficientScopeError());
       } else if (err) {
