@@ -77,12 +77,12 @@ module.exports = function (config) {
       json: true,
       form: {
         access_token: access_token,
-//        client_id: client_id,
         scope: scope
       } 
     }, function (err, res, body) {
       if (err) { return callback(err); }
       if (body.error) { return callback(body); }
+      if (res.statusCode === 401) { return callback({ error: 'Unauthorized', error_description: 'Missing or invalid resource credentials' }); }
       callback(null, body);
     });
   }
@@ -97,8 +97,6 @@ module.exports = function (config) {
     var headers = req.headers
       , authorization = headers['authorization'] || ''
       , access_token = authorization.replace(/^Bearer\s/, '')
-//      , client_id = req.query.client_id
-//      , scope = req.query.scope
       ;
 
     // fail if there is no access token in the Authorization header
@@ -106,17 +104,7 @@ module.exports = function (config) {
       return next(new InvalidRequestError('Missing access token')); 
     }
 
-//    // fail if there is no client_id in the request params
-//    if (!client_id) { 
-//      return next(new InvalidRequestError('Missing client id')); 
-//    }
-
-//    // fail if there is no scope in the request params
-//    if (!scope) { 
-//      return next(new InsufficientScopeError()); 
-//    }
-
-    // if all arguments are valid, verify the token
+    // verify the token for this scope
     authorize(access_token, config.scope, function (err, response) {
       if (err && err.error === 'insufficient_scope') {
         next(new InsufficientScopeError());
