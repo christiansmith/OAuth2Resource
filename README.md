@@ -1,6 +1,6 @@
 # OAuth2Resource
 
-Express middleware for request authorization against [OAuth2Server](https://github.com/RideAmigosCorp/OAuth2Server).
+Express middleware for request authorization against [OAuth2Server](https://github.com/christiansmith/OAuth2Server).
 
 ## Usage
 
@@ -55,7 +55,7 @@ Requests to a protected endpoint require a Bearer token:
 
 ## The MIT License
 
-Copyright (c) 2013 Christian Smith http://anvil.io and RideAmigos Corp. http://rideamigoscorp.com
+Copyright (c) 2013 Christian Smith http://anvil.io
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
