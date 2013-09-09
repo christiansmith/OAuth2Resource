@@ -2,16 +2,21 @@
 
 Express middleware for request authorization against [OAuth2Server](https://github.com/christiansmith/OAuth2Server).
 
-## Usage
+## Installation and Usage
 
-OAuth2Server requires protected resources (your API server) to be registered, and provides credentials for authenticating access token verification requests. Configure the module with an authorization server endpoint, resource_id, resource_secret, and scope, then use it as route specific middleware. Here's an example Express app.
+OAuth2Server requires protected resources (your API server) to be registered, and provides credentials for authenticating access token verification requests. OAuth2Resource provides middleware for easily authorizing an API request against OAuth2Server. Install it with npm:
+
+    $ npm install oauth2resource
+
+
+Configure the module with an authorization server endpoint, resource_id, resource_secret, and scope, then use it as route specific middleware. Here's an example Express app.
 
     // app dependencies
     var express = require('express')
       , app = express();
 
     // middleware config
-    var authorize = require('../index')({
+    var authorize = require('oauth2resource')({
       endpoint: 'https://HOST:PORT/access', 
       resource_id: RESOURCE_ID, 
       resource_secret: RESOURCE_SECRET,
