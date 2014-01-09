@@ -73,7 +73,7 @@ module.exports = function (config) {
 //      });    
 //    });
 
-    agent.post(config.endpoint, { 
+    agent.post(config.provider, { 
       json: true,
       form: {
         access_token: access_token,

@@ -32,7 +32,7 @@ var access_token = '0396f91c7703a2060099'
   , insufficient_access_token = '00000000000000';
 
 var config = {
-  endpoint: 'http://localhost:3000/access', 
+  provider: 'http://localhost:3000/access', 
   resource_id: resource._id, 
   resource_secret: resource.secret,
   scope: 'limited'
