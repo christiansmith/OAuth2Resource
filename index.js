@@ -18,8 +18,8 @@ module.exports = function (config) {
 
   var agent = request.defaults({
     auth: {
-      user: config.resource_id,
-      pass: config.resource_secret
+      user: config.service_id,
+      pass: config.service_secret
     }
   });
 
@@ -73,7 +73,7 @@ module.exports = function (config) {
 //      });    
 //    });
 
-    agent.post(config.provider, { 
+    agent.post(config.provider + '/access', { 
       json: true,
       form: {
         access_token: access_token,

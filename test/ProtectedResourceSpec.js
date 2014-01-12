@@ -23,7 +23,7 @@ chai.should();
  * Test data
  */
 
-var resource = {
+var service = {
   _id: '3c', 
   secret: '40f8404d3500cc029516'
 }
@@ -32,9 +32,9 @@ var access_token = '0396f91c7703a2060099'
   , insufficient_access_token = '00000000000000';
 
 var config = {
-  provider: 'http://localhost:3000/access', 
-  resource_id: resource._id, 
-  resource_secret: resource.secret,
+  provider: 'http://localhost:3000', 
+  service_id: service._id, 
+  service_secret: service.secret,
   scope: 'limited'
 };
 
@@ -74,20 +74,22 @@ app.get('/protected', authorize, function (req, res) {
  * Mock authorization server
  */
 
+var validCredentials = new Buffer(service._id + ':' + service.secret).toString('base64');
+
 var whatever = nock('http://localhost:3000/')
 
   // valid request
-  .matchHeader('Authorization', 'Basic ' + new Buffer(resource._id + ':' + resource.secret).toString('base64'))
+  .matchHeader('Authorization', 'Basic ' + validCredentials)
   .post('/access', 'access_token=' + access_token + '&scope=limited')
   .reply(200, { authorized: true })
 
   // unknown access token
-  .matchHeader('Authorization', 'Basic ' + new Buffer(resource._id + ':' + resource.secret).toString('base64'))
+  .matchHeader('Authorization', 'Basic ' + validCredentials)
   .post('/access', 'access_token=unknown&scope=limited')
   .reply(400, { error: 'invalid_request', error_description: 'Unknown access token' })          
 
   // insufficient scope
-  .matchHeader('Authorization', 'Basic ' + new Buffer(resource._id + ':' + resource.secret).toString('base64'))
+  .matchHeader('Authorization', 'Basic ' + validCredentials)
   .post('/access', 'access_token=' + insufficient_access_token + '&scope=limited')
   .reply(400, { error: 'insufficient_scope', error_description: 'Insufficient scope' }) 
   ;
